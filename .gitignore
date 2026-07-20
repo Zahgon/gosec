@@ -42,3 +42,7 @@ coverage.out
 # SBOMs generated during CI
 /bom.json
 1
+
+.aider*
+logs/
+vendor/
