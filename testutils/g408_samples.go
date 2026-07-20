@@ -2,9 +2,8 @@ package testutils
 
 import "github.com/securego/gosec/v2"
 
-// SampleCodeG408 - SSH PublicKeyCallback stateful misuse
 var SampleCodeG408 = []CodeSample{
-	// Vulnerable: Direct capture and write to outer variable
+
 	{[]string{`
 package main
 
@@ -37,7 +36,6 @@ func setupServer() {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Vulnerable: Struct field write via captured struct
 	{[]string{`
 package main
 
@@ -73,7 +71,6 @@ func setupServer() {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Vulnerable: Map update with captured map
 	{[]string{`
 package main
 
@@ -105,7 +102,6 @@ func setupServer() {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Vulnerable: Slice modification
 	{[]string{`
 package main
 
@@ -137,7 +133,6 @@ func setupServer() {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Vulnerable: Nested struct field modification
 	{[]string{`
 package main
 
@@ -175,7 +170,6 @@ func setupServer() {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Safe: No captured variables modified
 	{[]string{`
 package main
 
@@ -212,7 +206,6 @@ func isAuthorized(key PublicKey) bool {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: Storing key data in Permissions.Extensions (correct pattern)
 	{[]string{`
 package main
 
@@ -246,7 +239,6 @@ func setupServer() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: Only reading captured variables
 	{[]string{`
 package main
 
@@ -283,7 +275,6 @@ func setupServer() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: No closure captures at all
 	{[]string{`
 package main
 
@@ -315,7 +306,6 @@ func checkKey(conn ConnMetadata, key PublicKey) (*Permissions, error) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: Module-level function (not closure)
 	{[]string{`
 package main
 

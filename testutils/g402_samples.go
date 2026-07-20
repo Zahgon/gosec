@@ -2,7 +2,6 @@ package testutils
 
 import "github.com/securego/gosec/v2"
 
-// SampleCodeG402 - TLS settings
 var SampleCodeG402 = []CodeSample{
 	{[]string{`
 // InsecureSkipVerify

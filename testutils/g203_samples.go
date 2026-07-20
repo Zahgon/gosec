@@ -2,7 +2,6 @@ package testutils
 
 import "github.com/securego/gosec/v2"
 
-// SampleCodeG203 - Template checks
 var SampleCodeG203 = []CodeSample{
 	{[]string{`
 // We assume that hardcoded template strings are safe as the programmer would

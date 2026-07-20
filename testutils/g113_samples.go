@@ -2,9 +2,8 @@ package testutils
 
 import "github.com/securego/gosec/v2"
 
-// SampleCodeG113 - HTTP request smuggling vulnerabilities
 var SampleCodeG113 = []CodeSample{
-	// Pattern: Conflicting TE and CL headers - VULNERABLE
+
 	{[]string{`
 package main
 
@@ -19,7 +18,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Pattern: Conflicting headers (reverse order) - VULNERABLE
 	{[]string{`
 package main
 
@@ -34,7 +32,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Pattern: Conflicting headers via Header() variable - VULNERABLE
 	{[]string{`
 package main
 
@@ -50,7 +47,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Safe: Only Content-Length header
 	{[]string{`
 package main
 
@@ -64,7 +60,6 @@ func safeHandler(w http.ResponseWriter, r *http.Request) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: Only Transfer-Encoding header
 	{[]string{`
 package main
 
@@ -78,7 +73,6 @@ func safeHandler(w http.ResponseWriter, r *http.Request) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: Other headers only
 	{[]string{`
 package main
 

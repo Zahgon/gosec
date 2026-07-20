@@ -2,7 +2,6 @@ package testutils
 
 import "github.com/securego/gosec/v2"
 
-// SampleCodeG502 - Blocklisted import DES
 var SampleCodeG502 = []CodeSample{
 	{[]string{`
 package main

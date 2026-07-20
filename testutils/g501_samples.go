@@ -2,7 +2,6 @@ package testutils
 
 import "github.com/securego/gosec/v2"
 
-// SampleCodeG501 - Blocklisted import MD5
 var (
 	SampleCodeG501 = []CodeSample{
 		{[]string{`
@@ -22,8 +21,6 @@ func main() {
 `}, 1, gosec.NewConfig()},
 	}
 
-	// SampleCodeG501BuildTag provides a reportable file if a build tag is
-	// supplied.
 	SampleCodeG501BuildTag = []CodeSample{
 		{[]string{`
 //go:build tag

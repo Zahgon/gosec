@@ -1,7 +1,5 @@
 package autofix
 
-import "strings"
-
 const (
 	modelAtlasDefault         = "deepseek-ai/deepseek-v4-flash"
 	modelAtlasDeepSeekV4Flash = "deepseek-ai/deepseek-v4-flash"
@@ -21,48 +19,8 @@ type atlasConfig struct {
 }
 
 func newAtlasClient(config atlasConfig) (GenAIClient, error) {
-	baseURL := config.BaseURL
-	if baseURL == "" {
-		baseURL = defaultAtlasBaseURL
-	}
-
-	return NewOpenAIClient(OpenAIConfig{
-		Model:       parseAtlasModel(config.Model),
-		APIKey:      config.APIKey,
-		BaseURL:     baseURL,
-		MaxTokens:   config.MaxTokens,
-		Temperature: config.Temperature,
-		SkipSSL:     config.SkipSSL,
-	})
+	_ = "STUB: not implemented"
+	return *new(GenAIClient), nil
 }
 
-func parseAtlasModel(model string) string {
-	switch model {
-	case "", "atlas", "atlas-deepseek-v4-flash":
-		return modelAtlasDefault
-	case "atlas-qwen3-coder-next", "atlas-qwen-turbo":
-		return modelAtlasQwenCoderNext
-	case "atlas-kimi-k2.6", "atlas-kimi-k2":
-		return modelAtlasKimiK26
-	}
-
-	for _, prefix := range []string{"atlas/", "atlas:"} {
-		if strings.HasPrefix(model, prefix) {
-			trimmed := strings.TrimPrefix(model, prefix)
-			if trimmed != "" {
-				return trimmed
-			}
-			return modelAtlasDefault
-		}
-	}
-
-	if strings.HasPrefix(model, "atlas-") {
-		trimmed := strings.TrimPrefix(model, "atlas-")
-		if trimmed != "" {
-			return trimmed
-		}
-		return modelAtlasDefault
-	}
-
-	return model
-}
+func parseAtlasModel(model string) string { _ = "STUB: not implemented"; return "" }

@@ -2,7 +2,6 @@ package testutils
 
 import "github.com/securego/gosec/v2"
 
-// SampleCodeG112 - potential slowloris attack
 var SampleCodeG112 = []CodeSample{
 	{[]string{`
 package main

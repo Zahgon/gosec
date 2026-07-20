@@ -1,47 +1,23 @@
 package sonar
 
-// NewLocation instantiate a Location
 func NewLocation(message string, filePath string, textRange *TextRange) *Location {
-	return &Location{
-		Message:   message,
-		FilePath:  filePath,
-		TextRange: textRange,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
-// NewTextRange instantiate a TextRange
-func NewTextRange(startLine int, endLine int) *TextRange {
-	return &TextRange{
-		StartLine: startLine,
-		EndLine:   endLine,
-	}
-}
+func NewTextRange(startLine int, endLine int) *TextRange { _ = "STUB: not implemented"; return nil }
 
-// NewIssue instantiate an Issue
 func NewIssue(ruleID string, primaryLocation *Location, effortMinutes int) *Issue {
-	return &Issue{
-		RuleID:          ruleID,
-		PrimaryLocation: primaryLocation,
-		EffortMinutes:   effortMinutes,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
-// NewImpact instantiate an Impact.
 func NewImpact(softwareQuality string, severity string) *Impact {
-	return &Impact{
-		SoftwareQuality: softwareQuality,
-		Severity:        severity,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
-// NewRule instantiate a Rule.
 func NewRule(id string, name string, description string, engineID string, cleanCodeAttribute string, impacts []*Impact) *Rule {
-	return &Rule{
-		ID:                 id,
-		Name:               name,
-		Description:        description,
-		EngineID:           engineID,
-		CleanCodeAttribute: cleanCodeAttribute,
-		Impacts:            impacts,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }

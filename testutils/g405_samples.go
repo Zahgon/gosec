@@ -3,7 +3,6 @@ package testutils
 import "github.com/securego/gosec/v2"
 
 var (
-	// SampleCodeG405 - Use of weak crypto encryption DES
 	SampleCodeG405 = []CodeSample{
 		{[]string{`
 package main
@@ -35,7 +34,6 @@ func main() {
 `}, 1, gosec.NewConfig()},
 	}
 
-	// SampleCodeG405b - Use of weak crypto encryption RC4
 	SampleCodeG405b = []CodeSample{
 		{[]string{`
 package main

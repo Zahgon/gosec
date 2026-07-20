@@ -1,10 +1,9 @@
-// testutils/g117_samples.go
 package testutils
 
 import "github.com/securego/gosec/v2"
 
 var SampleCodeG117 = []CodeSample{
-	// Positive: json.Marshal on sensitive field
+
 	{[]string{`
 package main
 
@@ -19,7 +18,6 @@ func main() {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Positive: json.MarshalIndent on sensitive json tag key
 	{[]string{`
 package main
 
@@ -34,7 +32,6 @@ func main() {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Positive: Encoder.Encode on []byte secret
 	{[]string{`
 package main
 
@@ -52,7 +49,6 @@ func main() {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Positive: match on field name even if json key is non-sensitive
 	{[]string{`
 package main
 
@@ -67,7 +63,6 @@ func main() {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Positive: match on JSON key with safe field name
 	{[]string{`
 package main
 
@@ -82,7 +77,6 @@ func main() {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Positive: match on both field and json key
 	{[]string{`
 package main
 
@@ -97,7 +91,6 @@ func main() {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Positive: snake/hyphen variants in json key
 	{[]string{`
 package main
 
@@ -112,8 +105,6 @@ func main() {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Positive: empty json tag name falls back to field name
-	// Positive: empty json tag part falls back to field name
 	{[]string{`
 package main
 
@@ -128,8 +119,6 @@ func main() {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Positive: plural forms
-	// Positive: plural forms
 	{[]string{`
 package main
 
@@ -192,7 +181,6 @@ func main() {
 		return cfg
 	}()},
 
-	// Positive: pointer to struct argument
 	{[]string{`
 package main
 
@@ -207,7 +195,6 @@ func main() {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Positive: slice of structs argument
 	{[]string{`
 package main
 
@@ -222,7 +209,6 @@ func main() {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Positive: map with struct value argument
 	{[]string{`
 package main
 
@@ -237,7 +223,6 @@ func main() {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Positive: YAML marshal on sensitive field
 	{[]string{`
 package main
 
@@ -252,7 +237,6 @@ func main() {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Positive: XML marshal on sensitive tag key
 	{[]string{`
 package main
 
@@ -267,7 +251,6 @@ func main() {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Positive: TOML Encoder.Encode on sensitive field
 	{[]string{`
 package main
 
@@ -283,7 +266,6 @@ func main() {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Negative: sensitive field is never marshaled to JSON
 	{[]string{`
 package main
 
@@ -294,7 +276,6 @@ type Config struct {
 func main() {}
 `}, 0, gosec.NewConfig()},
 
-	// Negative (issue #1527): anonymous struct used for template execution only
 	{[]string{`
 package main
 
@@ -313,7 +294,6 @@ func main() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Negative (issue #1527): env tags should not imply JSON serialization
 	{[]string{`
 package main
 
@@ -324,7 +304,6 @@ type AppConfig struct {
 func main() {}
 `}, 0, gosec.NewConfig()},
 
-	// Negative: json:"-" (omitted)
 	{[]string{`
 package main
 
@@ -339,7 +318,6 @@ func main() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Negative: yaml:"-" (omitted)
 	{[]string{`
 package main
 
@@ -354,7 +332,6 @@ func main() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Negative: xml:"-" (omitted)
 	{[]string{`
 package main
 
@@ -369,7 +346,6 @@ func main() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Negative: toml:"-" (omitted)
 	{[]string{`
 package main
 
@@ -385,8 +361,6 @@ func main() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Negative: both field name and json key non-sensitive
-	// Negative: both field name and JSON key non-sensitive
 	{[]string{`
 package main
 
@@ -401,7 +375,6 @@ func main() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Negative: marshal of plain string does not involve struct field analysis
 	{[]string{`
 package main
 
@@ -412,7 +385,6 @@ func main() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Negative: unexported field
 	{[]string{`
 package main
 
@@ -427,7 +399,6 @@ func main() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Negative: unexported sensitive field with sensitive json tag is still ignored
 	{[]string{`
 package main
 
@@ -442,7 +413,6 @@ func main() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Negative: json:"-," means field name "-" (not omitted), and should not match when field name is non-sensitive
 	{[]string{`
 package main
 
@@ -457,7 +427,6 @@ func main() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Negative: non-sensitive type (int) even with "token"
 	{[]string{`
 package main
 
@@ -472,7 +441,6 @@ func main() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Negative: non-secret plural slice (common FP like redaction placeholders)
 	{[]string{`
 package main
 
@@ -487,8 +455,6 @@ func main() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Negative: grouped fields, only one sensitive (should still flag the sensitive one)
-	// Note: we expect 1 issue (for the sensitive field)
 	{[]string{`
 package main
 
@@ -503,7 +469,6 @@ func main() {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Suppression: trailing line comment
 	{[]string{`
 package main
 
@@ -518,7 +483,6 @@ func main() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Suppression: line comment above field
 	{[]string{`
 package main
 
@@ -534,7 +498,6 @@ func main() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Suppression: trailing with justification
 	{[]string{`
 package main
 
@@ -549,7 +512,6 @@ func main() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Suppression: MarshalIndent call line
 	{[]string{`
 package main
 
@@ -564,7 +526,6 @@ func main() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Suppression: Encode call line
 	{[]string{`
 package main
 
@@ -582,7 +543,6 @@ func main() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Suppression: YAML marshal call line
 	{[]string{`
 package main
 
@@ -597,7 +557,6 @@ func main() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Suppression: XML marshal call line
 	{[]string{`
 package main
 
@@ -612,7 +571,6 @@ func main() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Suppression: TOML Encode call line
 	{[]string{`
 package main
 
@@ -628,7 +586,6 @@ func main() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Negative (issue #1614): marshal inside MarshalJSON with masked value
 	{[]string{`
 package main
 
@@ -655,7 +612,6 @@ func mask(input string) string {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Negative (issue #1614): json.Marshal inside MarshalYAML custom marshaler
 	{[]string{`
 package main
 
@@ -679,7 +635,6 @@ func (s Secret) MarshalYAML() (interface{}, error) {
 func redact(s string) string { return "***" }
 `}, 0, gosec.NewConfig()},
 
-	// Positive: marshal of sensitive field NOT inside a custom marshaler
 	{[]string{`
 package main
 
@@ -696,7 +651,6 @@ func (c Credentials) String() string {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Negative: type implements MarshalJSON — custom marshaler controls output
 	{[]string{`
 package main
 
@@ -716,7 +670,6 @@ func main() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Negative: pointer to type implementing MarshalJSON
 	{[]string{`
 package main
 
@@ -736,7 +689,6 @@ func main() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Negative: slice of type implementing MarshalJSON
 	{[]string{`
 package main
 
@@ -756,7 +708,6 @@ func main() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Negative: composite literal with sensitive field wrapped in function call
 	{[]string{`
 package main
 
@@ -777,7 +728,6 @@ func main() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Negative: composite literal with & and function call on sensitive field
 	{[]string{`
 package main
 
@@ -798,7 +748,6 @@ func main() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Positive: composite literal with direct value (no transformation)
 	{[]string{`
 package main
 
@@ -818,7 +767,6 @@ func main() {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Positive: composite literal with sensitive field set to another struct field
 	{[]string{`
 package main
 
@@ -842,7 +790,6 @@ func logCreds(c Credentials) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Negative: non-JSON function named Marshal
 	{[]string{`
 package main
 
@@ -857,7 +804,6 @@ func main() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Negative: non-encoding/json Encoder type with Encode method
 	{[]string{`
 package main
 

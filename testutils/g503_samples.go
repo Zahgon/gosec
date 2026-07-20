@@ -2,7 +2,6 @@ package testutils
 
 import "github.com/securego/gosec/v2"
 
-// SampleCodeG503 - Blocklisted import RC4
 var SampleCodeG503 = []CodeSample{
 	{[]string{`
 package main

@@ -2,9 +2,8 @@ package testutils
 
 import "github.com/securego/gosec/v2"
 
-// SampleCodeG703 - Path traversal via taint analysis
 var SampleCodeG703 = []CodeSample{
-	// True positive: HTTP request parameter used as file path
+
 	{[]string{`
 package main
 
@@ -99,7 +98,7 @@ func safeHandler(r *http.Request) {
 	os.Open(cleaned)
 }
 `}, 0, gosec.NewConfig()},
-	// Test: path.Base sanitizer
+
 	{[]string{`
 package main
 
@@ -115,7 +114,7 @@ func handler(r *http.Request) {
 	os.Open(safe)
 }
 `}, 0, gosec.NewConfig()},
-	// Safe: filepath.Abs sanitizer (calls Clean internally)
+
 	{[]string{`
 package main
 
@@ -130,7 +129,7 @@ func main() {
 	os.ReadFile(filename)
 }
 `}, 0, gosec.NewConfig()},
-	// Test: strconv sanitizer
+
 	{[]string{`
 package main
 
@@ -146,7 +145,7 @@ func handler(r *http.Request) {
 	os.Open("/tmp/file" + strconv.Itoa(num))
 }
 `}, 0, gosec.NewConfig()},
-	// True positive: http.ServeFile with user-controlled path
+
 	{[]string{`
 package main
 
@@ -159,7 +158,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, path)
 }
 `}, 1, gosec.NewConfig()},
-	// True positive: http.ServeFileFS with user-controlled path
+
 	{[]string{`
 package main
 
@@ -173,7 +172,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	http.ServeFileFS(w, r, os.DirFS("."), name)
 }
 `}, 1, gosec.NewConfig()},
-	// True negative: http.ServeFile with hardcoded path
+
 	{[]string{`
 package main
 

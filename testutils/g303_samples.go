@@ -2,7 +2,6 @@ package testutils
 
 import "github.com/securego/gosec/v2"
 
-// SampleCodeG303 - bad tempfile permissions & hardcoded shared path
 var SampleCodeG303 = []CodeSample{
 	{[]string{`
 package samples

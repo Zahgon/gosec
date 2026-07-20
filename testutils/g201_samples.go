@@ -2,7 +2,6 @@ package testutils
 
 import "github.com/securego/gosec/v2"
 
-// SampleCodeG201 - SQL injection via format string
 var SampleCodeG201 = []CodeSample{
 	{[]string{`
 // Format string without proper quoting
@@ -545,7 +544,7 @@ func main() {
 	}
 	defer rows.Close()
 }
-`}, 0, gosec.NewConfig()}, // G201 should NOT flag (G202 does)
+`}, 0, gosec.NewConfig()},
 	{[]string{`
 // Fprintf to os.Stderr - no issue
 package main

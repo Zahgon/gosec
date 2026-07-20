@@ -2,12 +2,8 @@ package testutils
 
 import "github.com/securego/gosec/v2"
 
-// SampleCodeG706 - Log injection via taint analysis
 var SampleCodeG706 = []CodeSample{
-	// ── slog regression tests (issue #1622) ──────────────────────────────────
-	// slog.Warn/Error/Info/Debug pass attribute values through structured
-	// handlers (TextHandler, JSONHandler) that escape them automatically.
-	// Tainted values in key-value attribute pairs must NOT be flagged.
+
 	{[]string{`
 package main
 
@@ -49,8 +45,7 @@ func handler(r *http.Request) {
 	slog.Warn("Error getting HLS file info", "path", filePath)
 }
 `}, 0, gosec.NewConfig()},
-	// Tainted slog message (args[0]) IS a real injection vector -
-	// TextHandler writes msg verbatim; this MUST still be flagged.
+
 	{[]string{`
 package main
 
@@ -64,7 +59,7 @@ func handler(r *http.Request) {
 	slog.Warn(msg) // tainted message - should be flagged
 }
 `}, 1, gosec.NewConfig()},
-	// ── original test cases ───────────────────────────────────────────────────
+
 	{[]string{`
 package main
 
@@ -103,7 +98,7 @@ func safeLog() {
 	log.Println("Application started")
 }
 `}, 0, gosec.NewConfig()},
-	// Test: json.Marshal sanitizer
+
 	{[]string{`
 package main
 
@@ -119,7 +114,7 @@ func handler(r *http.Request) {
 	log.Printf("Received: %s", jsonData)
 }
 `}, 0, gosec.NewConfig()},
-	// Test: strconv sanitizer
+
 	{[]string{`
 package main
 

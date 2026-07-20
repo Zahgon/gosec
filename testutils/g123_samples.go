@@ -2,9 +2,8 @@ package testutils
 
 import "github.com/securego/gosec/v2"
 
-// SampleCodeG123 - TLS resumption bypass of VerifyPeerCertificate when VerifyConnection is unset
 var SampleCodeG123 = []CodeSample{
-	// Vulnerable: direct config uses VerifyPeerCertificate and leaves session tickets enabled
+
 	{[]string{`
 package main
 
@@ -20,7 +19,6 @@ func main() {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Vulnerable: GetConfigForClient returns stricter VerifyPeerCertificate config
 	{[]string{`
 package main
 
@@ -41,7 +39,6 @@ func main() {
 }
 `}, 2, gosec.NewConfig()},
 
-	// Safe: VerifyConnection is set (runs on resumed connections)
 	{[]string{`
 package main
 
@@ -58,7 +55,6 @@ func main() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: session tickets explicitly disabled alongside VerifyPeerCertificate
 	{[]string{`
 package main
 

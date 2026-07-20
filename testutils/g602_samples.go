@@ -2,7 +2,6 @@ package testutils
 
 import "github.com/securego/gosec/v2"
 
-// SampleCodeG602 - Slice access out of bounds
 var SampleCodeG602 = []CodeSample{
 	{[]string{`
 package main
@@ -651,7 +650,7 @@ func main() {
 	fmt.Println(s[idx])
 }
 `}, 1, gosec.NewConfig()},
-	// Issue #1495: G602 false positive for array element access with coexisting slice expression
+
 	{[]string{`
 package main
 import (
@@ -696,7 +695,7 @@ func main() {
 	_ = arr[4]
 }
 `}, 0, gosec.NewConfig()},
-	// Issue #1525: G602 false positive for array index in range-over-array loops
+
 	{[]string{`
 package main
 func main() {
@@ -715,7 +714,7 @@ func main() {
 	}
 }
 `}, 1, gosec.NewConfig()},
-	// Issue #1545: G602 false positive on range-over-array indexing into same-size array
+
 	{[]string{`
 package main
 

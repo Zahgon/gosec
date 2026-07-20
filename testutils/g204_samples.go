@@ -2,7 +2,6 @@ package testutils
 
 import "github.com/securego/gosec/v2"
 
-// SampleCodeG204 - Subprocess auditing
 var SampleCodeG204 = []CodeSample{
 	{[]string{`
 package main

@@ -2,7 +2,6 @@ package testutils
 
 import "github.com/securego/gosec/v2"
 
-// SampleCodeG507 - Blocklisted import RIPEMD160
 var SampleCodeG507 = []CodeSample{
 	{[]string{`
 package main

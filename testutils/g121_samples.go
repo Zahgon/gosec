@@ -2,9 +2,8 @@ package testutils
 
 import "github.com/securego/gosec/v2"
 
-// SampleCodeG121 - Unsafe CORS bypass patterns via CrossOriginProtection
 var SampleCodeG121 = []CodeSample{
-	// Vulnerable: overbroad root bypass
+
 	{[]string{`
 package main
 
@@ -16,7 +15,6 @@ func setup() {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Vulnerable: overbroad wildcard bypass
 	{[]string{`
 package main
 
@@ -28,7 +26,6 @@ func setup() {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Vulnerable: user-controlled bypass pattern from request data
 	{[]string{`
 package main
 
@@ -42,7 +39,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Safe: narrow static bypass
 	{[]string{`
 package main
 
@@ -54,7 +50,6 @@ func setup() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: multiple narrow static bypasses
 	{[]string{`
 package main
 

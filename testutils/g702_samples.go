@@ -2,7 +2,6 @@ package testutils
 
 import "github.com/securego/gosec/v2"
 
-// SampleCodeG702 - Command injection via taint analysis
 var SampleCodeG702 = []CodeSample{
 	{[]string{`
 package main

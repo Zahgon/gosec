@@ -2,7 +2,6 @@ package testutils
 
 import "github.com/securego/gosec/v2"
 
-// SampleCodeG404 - weak random number
 var SampleCodeG404 = []CodeSample{
 	{[]string{`
 package main

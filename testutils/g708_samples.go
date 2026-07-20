@@ -2,9 +2,8 @@ package testutils
 
 import "github.com/securego/gosec/v2"
 
-// SampleCodeG708 - Server-side template injection via text/template
 var SampleCodeG708 = []CodeSample{
-	// Positive: user input flows into Template.Parse (SSTI - critical)
+
 	{[]string{`
 package main
 
@@ -20,7 +19,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Positive: user input rendered via text/template Execute to ResponseWriter (XSS)
 	{[]string{`
 package main
 
@@ -37,7 +35,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Positive: ExecuteTemplate with tainted data to ResponseWriter
 	{[]string{`
 package main
 
@@ -54,7 +51,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Negative: html/template is safe (auto-escapes) — should NOT trigger
 	{[]string{`
 package main
 
@@ -71,7 +67,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Negative: text/template Execute to non-HTTP writer (e.g. os.Stdout) — no XSS risk
 	{[]string{`
 package main
 
@@ -86,7 +81,6 @@ func main() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Negative: sanitized input via html.EscapeString before Execute
 	{[]string{`
 package main
 

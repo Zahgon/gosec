@@ -2,9 +2,8 @@ package testutils
 
 import gosec "github.com/securego/gosec/v2"
 
-// SampleCodeG709 contains samples for detecting unsafe deserialization of untrusted data.
 var SampleCodeG709 = []CodeSample{
-	// Positive: gob.NewDecoder with tainted reader from user input
+
 	{
 		Code: []string{`
 package main
@@ -31,7 +30,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		Errors: 1,
 		Config: gosec.NewConfig(),
 	},
-	// Positive: xml.NewDecoder with tainted reader from user input
+
 	{
 		Code: []string{`
 package main
@@ -58,7 +57,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		Errors: 1,
 		Config: gosec.NewConfig(),
 	},
-	// Positive: xml.Unmarshal with tainted bytes from user input
+
 	{
 		Code: []string{`
 package main
@@ -83,7 +82,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		Errors: 1,
 		Config: gosec.NewConfig(),
 	},
-	// Negative: gob.NewDecoder from a local file (not an HTTP source)
+
 	{
 		Code: []string{`
 package main
@@ -109,7 +108,7 @@ func main() {
 		Errors: 0,
 		Config: gosec.NewConfig(),
 	},
-	// Negative: encoding/json (not flagged — too common, low risk)
+
 	{
 		Code: []string{`
 package main

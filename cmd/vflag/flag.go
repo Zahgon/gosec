@@ -1,25 +1,9 @@
 package vflag
 
-import (
-	"errors"
-	"strings"
-)
-
-// ValidatedFlag cli string type
 type ValidatedFlag struct {
 	Value string
 }
 
-func (f *ValidatedFlag) String() string {
-	return f.Value
-}
+func (f *ValidatedFlag) String() string { _ = "STUB: not implemented"; return "" }
 
-// Set will be called for flag that is of validateFlag type
-func (f *ValidatedFlag) Set(value string) error {
-	if strings.Contains(value, "-") {
-		return errors.New("flag value cannot start with -")
-	}
-
-	f.Value = value
-	return nil
-}
+func (f *ValidatedFlag) Set(value string) error { _ = "STUB: not implemented"; return nil }

@@ -2,7 +2,6 @@ package testutils
 
 import "github.com/securego/gosec/v2"
 
-// SampleCodeG707 - SMTP command/header injection via taint analysis
 var SampleCodeG707 = []CodeSample{
 	{[]string{`
 package main

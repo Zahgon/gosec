@@ -2,9 +2,8 @@ package testutils
 
 import "github.com/securego/gosec/v2"
 
-// SampleCodeG119 - Unsafe redirect policy that may leak sensitive headers
 var SampleCodeG119 = []CodeSample{
-	// Vulnerable: directly copies all headers from previous request
+
 	{[]string{`
 package main
 
@@ -20,7 +19,6 @@ func client() *http.Client {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Vulnerable: explicitly re-adds Authorization header in redirect callback
 	{[]string{`
 package main
 
@@ -36,7 +34,6 @@ func client() *http.Client {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Vulnerable: explicitly re-adds Cookie header in redirect callback
 	{[]string{`
 package main
 
@@ -52,7 +49,6 @@ func client() *http.Client {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Safe: stop redirects
 	{[]string{`
 package main
 
@@ -72,7 +68,6 @@ func client() *http.Client {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: only sets non-sensitive header
 	{[]string{`
 package main
 

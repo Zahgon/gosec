@@ -13,21 +13,12 @@ type pprofCheck struct {
 	importName string
 }
 
-// Match checks for pprof imports
 func (p *pprofCheck) Match(n ast.Node, c *gosec.Context) (*issue.Issue, error) {
-	if node, ok := n.(*ast.ImportSpec); ok {
-		if p.importPath == unquote(node.Path.Value) && node.Name != nil && p.importName == node.Name.Name {
-			return c.NewIssue(node, p.ID(), p.What, p.Severity, p.Confidence), nil
-		}
-	}
+	_ = "STUB: not implemented"
 	return nil, nil
 }
 
-// NewPprofCheck detects when the profiling endpoint is automatically exposed
 func NewPprofCheck(id string, _ gosec.Config) (gosec.Rule, []ast.Node) {
-	return &pprofCheck{
-		MetaData:   issue.NewMetaData(id, "Profiling endpoint is automatically exposed on /debug/pprof", issue.High, issue.High),
-		importPath: "net/http/pprof",
-		importName: "_",
-	}, []ast.Node{(*ast.ImportSpec)(nil)}
+	_ = "STUB: not implemented"
+	return *new(gosec.Rule), nil
 }

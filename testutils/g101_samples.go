@@ -3,7 +3,6 @@ package testutils
 import "github.com/securego/gosec/v2"
 
 var (
-	// SampleCodeG101 code snippets for hardcoded credentials
 	SampleCodeG101 = []CodeSample{
 		{[]string{`
 package main
@@ -447,7 +446,7 @@ func main() {
 	}
 }
 `}, 0, gosec.NewConfig()},
-		// Negatives
+
 		{[]string{`
 package main
 
@@ -484,7 +483,6 @@ func main() {
 `}, 0, gosec.NewConfig()},
 	}
 
-	// SampleCodeG101Values code snippets for hardcoded credentials
 	SampleCodeG101Values = []CodeSample{
 		{[]string{`
 package main

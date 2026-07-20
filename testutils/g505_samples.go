@@ -2,7 +2,6 @@ package testutils
 
 import "github.com/securego/gosec/v2"
 
-// SampleCodeG505 - Blocklisted import SHA1
 var SampleCodeG505 = []CodeSample{
 	{[]string{`
 package main
