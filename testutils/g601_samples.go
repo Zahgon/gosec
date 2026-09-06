@@ -2,7 +2,6 @@ package testutils
 
 import "github.com/securego/gosec/v2"
 
-// SampleCodeG601 - Implicit aliasing over range statement
 var SampleCodeG601 = []CodeSample{
 	{[]string{`
 package main

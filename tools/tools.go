@@ -3,7 +3,6 @@
 
 package tools
 
-// nolint
 import (
 	_ "github.com/lib/pq"
 	_ "golang.org/x/crypto/ssh"

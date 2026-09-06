@@ -2,7 +2,6 @@ package testutils
 
 import "github.com/securego/gosec/v2"
 
-// SampleCodeG301 - mkdir permission check
 var SampleCodeG301 = []CodeSample{
 	{[]string{`
 package main

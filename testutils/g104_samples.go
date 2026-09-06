@@ -3,7 +3,6 @@ package testutils
 import "github.com/securego/gosec/v2"
 
 var (
-	// SampleCodeG104 finds errors that aren't being handled
 	SampleCodeG104 = []CodeSample{
 		{[]string{`
 package main
@@ -154,9 +153,8 @@ func main() {
 	_ = b
 }
 `}, 0, gosec.NewConfig()},
-	} // it shouldn't return any errors because all method calls are whitelisted by default
+	}
 
-	// SampleCodeG104Audit finds errors that aren't being handled in audit mode
 	SampleCodeG104Audit = []CodeSample{
 		{[]string{`
 package main

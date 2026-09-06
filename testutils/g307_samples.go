@@ -2,7 +2,6 @@ package testutils
 
 import "github.com/securego/gosec/v2"
 
-// SampleCodeG307 - Poor permissions for os.Create
 var SampleCodeG307 = []CodeSample{
 	{[]string{`
 package main

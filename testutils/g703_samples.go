@@ -2,9 +2,8 @@ package testutils
 
 import "github.com/securego/gosec/v2"
 
-// SampleCodeG703 - Path traversal via taint analysis
 var SampleCodeG703 = []CodeSample{
-	// True positive: HTTP request parameter used as file path
+
 	{[]string{`
 package main
 
@@ -84,8 +83,7 @@ func openFromArgs() {
 	}
 }
 `}, 1, gosec.NewConfig()},
-	// True positive: filepath.Clean only normalizes, it does not confine the
-	// path, so ".." in the user input still traverses out of any prefix.
+
 	{[]string{`
 package main
 
@@ -101,8 +99,7 @@ func cleanHandler(r *http.Request) {
 	os.Open(cleaned)
 }
 `}, 1, gosec.NewConfig()},
-	// True positive: path.Clean has the same normalize-only semantics as
-	// filepath.Clean and is likewise not a sanitizer.
+
 	{[]string{`
 package main
 
@@ -118,8 +115,7 @@ func pathCleanHandler(r *http.Request) {
 	os.Open(cleaned)
 }
 `}, 1, gosec.NewConfig()},
-	// True positive: url.PathEscape can be reversed by url.PathUnescape, which
-	// restores any traversal components, so it does not sanitize the path.
+
 	{[]string{`
 package main
 
@@ -135,7 +131,7 @@ func escapeHandler(r *http.Request) {
 	os.Open(restored)
 }
 `}, 1, gosec.NewConfig()},
-	// Test: path.Base sanitizer
+
 	{[]string{`
 package main
 
@@ -151,8 +147,7 @@ func handler(r *http.Request) {
 	os.Open(safe)
 }
 `}, 0, gosec.NewConfig()},
-	// True positive: filepath.Abs calls Clean internally, so it inherits the
-	// same normalize-only behavior and does not confine the path.
+
 	{[]string{`
 package main
 
@@ -167,7 +162,7 @@ func main() {
 	os.ReadFile(filename)
 }
 `}, 1, gosec.NewConfig()},
-	// Test: strconv sanitizer
+
 	{[]string{`
 package main
 
@@ -183,7 +178,7 @@ func handler(r *http.Request) {
 	os.Open("/tmp/file" + strconv.Itoa(num))
 }
 `}, 0, gosec.NewConfig()},
-	// True positive: http.ServeFile with user-controlled path
+
 	{[]string{`
 package main
 
@@ -196,7 +191,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, path)
 }
 `}, 1, gosec.NewConfig()},
-	// True positive: http.ServeFileFS with user-controlled path
+
 	{[]string{`
 package main
 
@@ -210,7 +205,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	http.ServeFileFS(w, r, os.DirFS("."), name)
 }
 `}, 1, gosec.NewConfig()},
-	// True negative: http.ServeFile with hardcoded path
+
 	{[]string{`
 package main
 

@@ -3,7 +3,6 @@ package testutils
 import "github.com/securego/gosec/v2"
 
 var (
-	// SampleCodeG401 - Use of weak crypto hash MD5
 	SampleCodeG401 = []CodeSample{
 		{[]string{`
 package main
@@ -39,7 +38,6 @@ func main() {
 `}, 1, gosec.NewConfig()},
 	}
 
-	// SampleCodeG401b - Use of weak crypto hash SHA1
 	SampleCodeG401b = []CodeSample{
 		{[]string{`
 package main

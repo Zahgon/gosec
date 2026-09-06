@@ -2,9 +2,8 @@ package testutils
 
 import "github.com/securego/gosec/v2"
 
-// SampleCodeG710 - Open redirect via taint analysis
 var SampleCodeG710 = []CodeSample{
-	// Positive: query parameter flows directly into http.Redirect URL.
+
 	{[]string{`
 package main
 
@@ -18,7 +17,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Positive: form value concatenated into a redirect target.
 	{[]string{`
 package main
 
@@ -32,7 +30,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Negative: redirect to a constant URL — never tainted.
 	{[]string{`
 package main
 
@@ -45,8 +42,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Negative: redirect target derived from numeric conversion of user input
-	// (strconv.Atoi sanitizer strips any redirect payload from the string).
 	{[]string{`
 package main
 

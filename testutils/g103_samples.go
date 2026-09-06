@@ -2,7 +2,6 @@ package testutils
 
 import "github.com/securego/gosec/v2"
 
-// SampleCodeG103 find instances of unsafe blocks for auditing purposes
 var SampleCodeG103 = []CodeSample{
 	{[]string{`
 package main

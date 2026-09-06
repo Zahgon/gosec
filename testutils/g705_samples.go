@@ -2,7 +2,6 @@ package testutils
 
 import "github.com/securego/gosec/v2"
 
-// SampleCodeG705 - XSS via taint analysis
 var SampleCodeG705 = []CodeSample{
 	{[]string{`
 package main
@@ -56,7 +55,7 @@ func staticHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "<h1>Hello World</h1>")
 }
 `}, 0, gosec.NewConfig()},
-	// Test: json.Marshal sanitizer
+
 	{[]string{`
 package main
 
@@ -71,7 +70,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	w.Write(jsonData)
 }
 `}, 0, gosec.NewConfig()},
-	// Test: strconv sanitizer
+
 	{[]string{`
 package main
 
@@ -86,9 +85,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(strconv.Itoa(num)))
 }
 `}, 0, gosec.NewConfig()},
-	// Test: context.Context should not propagate taint from *http.Request
-	// This is the pattern from PR #1543 — r.Context() passed to a function
-	// should not taint the function's return value.
+
 	{[]string{`
 package main
 
@@ -110,8 +107,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// G705 must NOT fire because the writer argument
-	// is not net/http.ResponseWriter.
 	{[]string{`
 package main
 
@@ -157,8 +152,7 @@ func main() {
 	wg.Wait()
 }
 `}, 0, gosec.NewConfig()},
-	// G705 must NOT fire because the writer argument
-	// is not net/http.ResponseWriter.
+
 	{[]string{`
 package main
 
@@ -172,8 +166,6 @@ func main() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// TRUE POSITIVE: exec output piped directly to http.ResponseWriter.
-	// G705 MUST fire — the writer IS http.ResponseWriter.
 	{[]string{`
 package main
 

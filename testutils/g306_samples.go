@@ -2,7 +2,6 @@ package testutils
 
 import "github.com/securego/gosec/v2"
 
-// SampleCodeG306 - Poor permissions for WriteFile
 var SampleCodeG306 = []CodeSample{
 	{[]string{`
 package main

@@ -1,24 +1,7 @@
 package junit
 
-// NewTestsuite instantiate a Testsuite
-func NewTestsuite(name string) *Testsuite {
-	return &Testsuite{
-		Name: name,
-	}
-}
+func NewTestsuite(name string) *Testsuite { _ = "STUB: not implemented"; return nil }
 
-// NewFailure instantiate a Failure
-func NewFailure(message string, text string) *Failure {
-	return &Failure{
-		Message: message,
-		Text:    text,
-	}
-}
+func NewFailure(message string, text string) *Failure { _ = "STUB: not implemented"; return nil }
 
-// NewTestcase instantiate a Testcase
-func NewTestcase(name string, failure *Failure) *Testcase {
-	return &Testcase{
-		Name:    name,
-		Failure: failure,
-	}
-}
+func NewTestcase(name string, failure *Failure) *Testcase { _ = "STUB: not implemented"; return nil }

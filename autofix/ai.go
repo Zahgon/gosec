@@ -2,9 +2,6 @@ package autofix
 
 import (
 	"context"
-	"errors"
-	"fmt"
-	"strings"
 	"time"
 
 	"github.com/securego/gosec/v2/issue"
@@ -28,72 +25,12 @@ type GenAIClient interface {
 	GenerateSolution(ctx context.Context, prompt string) (string, error)
 }
 
-// GenerateSolution generates a solution for the given issues using the specified AI provider
 func GenerateSolution(model, aiAPIKey, baseURL string, skipSSL bool, issues []*issue.Issue) (err error) {
-	var client GenAIClient
-
-	switch {
-	case model == "atlas" || strings.HasPrefix(model, "atlas-") || strings.HasPrefix(model, "atlas/") || strings.HasPrefix(model, "atlas:"):
-		config := atlasConfig{
-			Model:   model,
-			APIKey:  aiAPIKey,
-			BaseURL: baseURL,
-			SkipSSL: skipSSL,
-		}
-		client, err = newAtlasClient(config)
-	case strings.HasPrefix(model, "claude"):
-		client, err = NewClaudeClient(model, aiAPIKey)
-	case strings.HasPrefix(model, "gemini"):
-		client, err = NewGeminiClient(model, aiAPIKey)
-	case strings.HasPrefix(model, "gpt"):
-		config := OpenAIConfig{
-			Model:   model,
-			APIKey:  aiAPIKey,
-			BaseURL: baseURL,
-			SkipSSL: skipSSL,
-		}
-		client, err = NewOpenAIClient(config)
-	default:
-		// Default to OpenAI-compatible API for custom models
-		config := OpenAIConfig{
-			Model:   model,
-			APIKey:  aiAPIKey,
-			BaseURL: baseURL,
-			SkipSSL: skipSSL,
-		}
-		client, err = NewOpenAIClient(config)
-	}
-
-	if err != nil {
-		return fmt.Errorf("initializing AI client: %w", err)
-	}
-
-	return generateSolution(client, issues)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 func generateSolution(client GenAIClient, issues []*issue.Issue) error {
-	ctx, cancel := context.WithTimeout(context.Background(), timeout)
-	defer cancel()
-
-	cachedAutofix := make(map[string]string)
-	for _, issue := range issues {
-		if val, ok := cachedAutofix[issue.What]; ok {
-			issue.Autofix = val
-			continue
-		}
-
-		prompt := fmt.Sprintf(AIPrompt, issue.What)
-		resp, err := client.GenerateSolution(ctx, prompt)
-		if err != nil {
-			return fmt.Errorf("generating autofix with AI provider: %w", err)
-		}
-
-		if resp == "" {
-			return errors.New("no autofix returned by AI provider")
-		}
-
-		issue.Autofix = resp
-		cachedAutofix[issue.What] = issue.Autofix
-	}
+	_ = "STUB: not implemented"
 	return nil
 }

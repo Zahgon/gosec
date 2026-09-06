@@ -2,7 +2,6 @@ package testutils
 
 import "github.com/securego/gosec/v2"
 
-// SampleCodeG111 - potential directory traversal
 var SampleCodeG111 = []CodeSample{
 	{[]string{`
 package main

@@ -2,9 +2,8 @@ package testutils
 
 import gosec "github.com/securego/gosec/v2"
 
-// SampleCodeG124 contains samples for detecting insecure HTTP cookie configuration.
 var SampleCodeG124 = []CodeSample{
-	// Positive: cookie with no security attributes set
+
 	{
 		Code: []string{`
 package main
@@ -22,7 +21,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		Errors: 1,
 		Config: gosec.NewConfig(),
 	},
-	// Positive: Secure=false explicitly
+
 	{
 		Code: []string{`
 package main
@@ -43,7 +42,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		Errors: 1,
 		Config: gosec.NewConfig(),
 	},
-	// Positive: missing HttpOnly
+
 	{
 		Code: []string{`
 package main
@@ -63,7 +62,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		Errors: 1,
 		Config: gosec.NewConfig(),
 	},
-	// Negative: all security attributes set correctly
+
 	{
 		Code: []string{`
 package main
@@ -84,7 +83,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		Errors: 0,
 		Config: gosec.NewConfig(),
 	},
-	// Negative: all security attributes set correctly with LaxMode
+
 	{
 		Code: []string{`
 package main

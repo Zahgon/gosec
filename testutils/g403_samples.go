@@ -2,7 +2,6 @@ package testutils
 
 import "github.com/securego/gosec/v2"
 
-// SampleCodeG403 - weak key strength
 var SampleCodeG403 = []CodeSample{
 	{[]string{`
 package main

@@ -2,13 +2,7 @@ package testutils
 
 import "github.com/securego/gosec/v2"
 
-// #nosec - This file intentionally contains bidirectional Unicode characters
-// for testing trojan source detection.　The G116 rule scans the entire file content　(not just AST nodes)
-// because trojan source attacks work by manipulating　visual representation of code through bidirectional
-// text control characters, which can appear in comments, strings or anywhere in the source file.
-// Without this #nosec exclusion, gosec would detect these test samples as actual vulnerabilities.
 var (
-	// SampleCodeG116 - TrojanSource code snippets
 	SampleCodeG116 = []CodeSample{
 		{[]string{"\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\t// This comment contains bidirectional unicode: access\u202e\u2066 granted\u2069\u202d\n\tisAdmin := false\n\tfmt.Println(\"Access status:\", isAdmin)\n}\n"}, 1, gosec.NewConfig()},
 		{[]string{"\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\t// Trojan source with RLO character\n\taccessLevel := \"user\"\n\t// Actually assigns \"nimda\" due to bidi chars: accessLevel = \"\u202enimda\"\n\tif accessLevel == \"admin\" {\n\t\tfmt.Println(\"Access granted\")\n\t}\n}\n"}, 1, gosec.NewConfig()},

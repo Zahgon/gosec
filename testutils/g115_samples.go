@@ -219,8 +219,6 @@ func main() {
     fmt.Println(b)
 }
 	`,
-		// uint -> int (via CustomType) is same platform word size,
-		// no truncation possible.
 	}, 0, gosec.NewConfig()},
 	{[]string{
 		`
@@ -875,7 +873,6 @@ func sneakyNEQ(a int) uint {
 	panic("not supported")
 }
 	`,
-		// int -> uint is same platform word size, no truncation.
 	}, 0, gosec.NewConfig()},
 	{[]string{
 		`
@@ -1997,8 +1994,7 @@ func issue1577UnsafeUpper(v int64) byte {
 	return byte(v)
 }
 	`}, 1, gosec.NewConfig()},
-	// Platform-word-sized conversions (uintptr/uint/int) are
-	// same-width on all platforms — no truncation possible.
+
 	{[]string{`
 package main
 
@@ -2034,7 +2030,7 @@ func uintptrToUint(v uintptr) uint {
 	return uint(v)
 }
 	`}, 0, gosec.NewConfig()},
-	// Issue #1636: rune from []rune(string) with upper-bound guard
+
 	{[]string{`
 package main
 
@@ -2052,8 +2048,7 @@ func sanitize(malformed string) []byte {
 	return final
 }
 	`}, 0, gosec.NewConfig()},
-	// Negative: []rune parameter (not from string) with only
-	// upper-bound guard is still unsafe.
+
 	{[]string{`
 package main
 

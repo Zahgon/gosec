@@ -2,7 +2,6 @@ package testutils
 
 import "github.com/securego/gosec/v2"
 
-// SampleCodeG704 - SSRF via taint analysis
 var SampleCodeG704 = []CodeSample{
 	{[]string{`
 package main
@@ -65,7 +64,7 @@ func GetPublicIP() (string, error) {
 	return "", nil
 }
 `}, 0, gosec.NewConfig()},
-	// Constant URL string must NOT trigger G704.
+
 	{[]string{`
 package main
 
@@ -88,7 +87,7 @@ func main() {
 	}
 }
 `}, 0, gosec.NewConfig()},
-	// Sanity check: variable URL from request still fires.
+
 	{[]string{`
 package main
 
@@ -101,8 +100,7 @@ func handler(r *http.Request) {
 	http.Get(target) //nolint:errcheck
 }
 `}, 1, gosec.NewConfig()},
-	// Issue #1629: NamedClient wrapper delegates to http.Client.Do.
-	// Request built with constant URL — must NOT trigger G704.
+
 	{[]string{`
 package main
 
@@ -139,7 +137,7 @@ func doImport(httpDoer HTTPDoer) error {
 	return nil
 }
 `}, 0, gosec.NewConfig()},
-	// Issue #1629 counterpart: URL from os.Getenv through wrapper MUST still fire.
+
 	{[]string{`
 package main
 

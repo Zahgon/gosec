@@ -2,9 +2,8 @@ package testutils
 
 import "github.com/securego/gosec/v2"
 
-// SampleCodeG118 - Context propagation failures that may leak goroutines/resources
 var SampleCodeG118 = []CodeSample{
-	// Vulnerable: goroutine uses context.Background while request context exists
+
 	{[]string{`
 package main
 
@@ -24,7 +23,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 `}, 2, gosec.NewConfig()},
 
-	// Vulnerable: cancel function from context.WithTimeout is never called
 	{[]string{`
 package main
 
@@ -39,7 +37,6 @@ func work(ctx context.Context) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Vulnerable: loop with blocking call and no ctx.Done guard
 	{[]string{`
 package main
 
@@ -55,7 +52,6 @@ func run(ctx context.Context) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Vulnerable: complex infinite multi-block loop without ctx.Done guard
 	{[]string{`
 package main
 
@@ -77,7 +73,6 @@ func complexInfinite(ctx context.Context, ch <-chan int) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Safe: goroutine propagates request context and checks cancellation
 	{[]string{`
 package main
 
@@ -101,7 +96,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: cancel is always called
 	{[]string{`
 package main
 
@@ -117,7 +111,6 @@ func work(ctx context.Context) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: cancel is forwarded then deferred (regression for SSA store/load flow)
 	{[]string{`
 package main
 
@@ -131,7 +124,6 @@ func forwarded(ctx context.Context) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: loop has explicit ctx.Done guard
 	{[]string{`
 package main
 
@@ -151,7 +143,6 @@ func run(ctx context.Context) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: bounded loop with blocking call (finite by condition)
 	{[]string{`
 package main
 
@@ -168,7 +159,6 @@ func bounded(ctx context.Context) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: complex loop with explicit non-context exit path
 	{[]string{`
 package main
 
@@ -190,7 +180,6 @@ func worker(ctx context.Context, max int) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Vulnerable: context.WithCancel variant (not just WithTimeout)
 	{[]string{`
 package main
 
@@ -202,7 +191,6 @@ func work(ctx context.Context) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Vulnerable: context.WithDeadline variant
 	{[]string{`
 package main
 
@@ -217,7 +205,6 @@ func work(ctx context.Context) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Vulnerable: goroutine uses context.TODO instead of request context
 	{[]string{`
 package main
 
@@ -236,7 +223,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Note: nested goroutines are not detected by current implementation
 	{[]string{`
 package main
 
@@ -256,7 +242,6 @@ func handler(r *http.Request) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Vulnerable: function parameter ignored in goroutine
 	{[]string{`
 package main
 
@@ -274,7 +259,6 @@ func worker(ctx context.Context) {
 }
 `}, 2, gosec.NewConfig()},
 
-	// Note: channel range loops are not detected as blocking by current implementation
 	{[]string{`
 package main
 
@@ -288,7 +272,6 @@ func consume(ctx context.Context, ch <-chan int) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Note: select loops without ctx.Done are not detected by current implementation
 	{[]string{`
 package main
 
@@ -308,7 +291,6 @@ func selectLoop(ctx context.Context, ch <-chan int) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Vulnerable: multiple context creations, one missing cancel
 	{[]string{`
 package main
 
@@ -324,7 +306,6 @@ func multiContext(ctx context.Context) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Safe: cancel returned to caller — responsibility is transferred
 	{[]string{`
 package main
 
@@ -335,7 +316,6 @@ func createContext(ctx context.Context) (context.Context, context.CancelFunc) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Note: simple goroutines with Background() not detected when request param unused
 	{[]string{`
 package main
 
@@ -352,7 +332,6 @@ func simpleHandler(w http.ResponseWriter, r *http.Request) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Vulnerable: loop with http.Get blocking call (no ctx.Done guard)
 	{[]string{`
 package main
 
@@ -373,7 +352,6 @@ func pollAPI(ctx context.Context) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Vulnerable: loop with database query (no ctx.Done guard)
 	{[]string{`
 package main
 
@@ -391,7 +369,6 @@ func pollDB(ctx context.Context, db *sql.DB) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Vulnerable: loop with os.ReadFile blocking call
 	{[]string{`
 package main
 
@@ -409,7 +386,6 @@ func watchFile(ctx context.Context) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Safe: loop with blocking call AND ctx.Done guard
 	{[]string{`
 package main
 
@@ -436,7 +412,6 @@ func safePoller(ctx context.Context) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Vulnerable: goroutine with TODO instead of passed context
 	{[]string{`
 package main
 
@@ -454,7 +429,6 @@ func startWorker(ctx context.Context) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Vulnerable: WithTimeout in loop, cancel never called (reports once per location)
 	{[]string{`
 package main
 
@@ -471,7 +445,6 @@ func leakyLoop(ctx context.Context) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Safe: WithTimeout in loop WITH defer cancel
 	{[]string{`
 package main
 
@@ -489,7 +462,6 @@ func properLoop(ctx context.Context) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Vulnerable: cancel assigned to variable but never called
 	{[]string{`
 package main
 
@@ -501,7 +473,6 @@ func storeCancel(ctx context.Context) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Safe: cancel assigned to interface and called
 	{[]string{`
 package main
 
@@ -514,7 +485,6 @@ func interfaceCancel(ctx context.Context) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Vulnerable: nested WithCancel calls, inner one not canceled
 	{[]string{`
 package main
 
@@ -529,7 +499,6 @@ func nestedContext(ctx context.Context) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Vulnerable: loop with goroutine launch (hasBlocking=true)
 	{[]string{`
 package main
 
@@ -548,7 +517,6 @@ func spawnWorkers(ctx context.Context) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Vulnerable: loop with defer that has blocking call
 	{[]string{`
 package main
 
@@ -568,7 +536,6 @@ func deferredWrites(ctx context.Context) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Vulnerable: infinite loop with blocking interface method call
 	{[]string{`
 package main
 
@@ -587,7 +554,6 @@ func readLoop(ctx context.Context, r io.Reader) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Safe: loop with http.Client.Do has external exit via error
 	{[]string{`
 package main
 
@@ -609,7 +575,6 @@ func fetchWithBreak(ctx context.Context) error {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: cancel stored in struct field and called via method (tests isCancelCalledViaStructField)
 	{[]string{`
 package main
 
@@ -633,7 +598,6 @@ func (j *Job) Close() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Vulnerable: cancel stored in struct field but Close method never defined
 	{[]string{`
 package main
 
@@ -651,7 +615,6 @@ func NewWorker(ctx context.Context) *Worker {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Safe: cancel stored and called via pointer receiver method (tests reachesParam)
 	{[]string{`
 package main
 
@@ -674,7 +637,6 @@ func (s *Service) Stop() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: cancel via phi node - assigned conditionally then called (tests Phi case)
 	{[]string{`
 package main
 
@@ -691,7 +653,6 @@ func conditionalCancel(ctx context.Context, useTimeout bool) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: cancel through Store/UnOp chain (tests Store case in isCancelCalled)
 	{[]string{`
 package main
 
@@ -705,7 +666,6 @@ func storeAndLoad(ctx context.Context) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: cancel via ChangeType conversion (tests ChangeType case)
 	{[]string{`
 package main
 
@@ -718,7 +678,6 @@ func changeType(ctx context.Context) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Note: cancel via MakeInterface + type assertion not tracked by current implementation
 	{[]string{`
 package main
 
@@ -731,7 +690,6 @@ func makeInterface(ctx context.Context) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Safe: cancel field accessed via nested pointer dereference (tests UnOp in reachesParamImpl)
 	{[]string{`
 package main
 
@@ -753,7 +711,6 @@ func (c *Container) Teardown() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Vulnerable: cancel stored but method that calls it is on wrong receiver type
 	{[]string{`
 package main
 
@@ -779,7 +736,6 @@ func (t *TaskB) Close() {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Safe: cancel stored in field with index tracking (tests fieldIdx matching)
 	{[]string{`
 package main
 
@@ -803,7 +759,6 @@ func (m *MultiField) Cleanup() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: cancel passed as argument to helper function (tests isUsedInCall)
 	{[]string{`
 package main
 
@@ -819,7 +774,6 @@ func useHelper(ctx context.Context) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: cancel used in Call.Value position (tests isUsedInCall Value branch)
 	{[]string{`
 package main
 
@@ -831,7 +785,6 @@ func callAsValue(ctx context.Context) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: multiple Phi edges with cancel (tests reachesParamImpl Phi case)
 	{[]string{`
 package main
 
@@ -852,7 +805,6 @@ func multiPhiEdges(ctx context.Context, a, b, c bool) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: nested field cancel called via outer method on Inner type (fixed by isFieldCalledInAnyFunc)
 	{[]string{`
 package main
 
@@ -878,7 +830,6 @@ func (o *Outer) Teardown() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Vulnerable: loop with interface method Do (tests analyzeBlockFeatures invoke)
 	{[]string{`
 package main
 
@@ -899,7 +850,6 @@ func pollWithInterface(ctx context.Context, client HTTPClient) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Vulnerable: loop with Send interface method (tests analyzeBlockFeatures invoke Send)
 	{[]string{`
 package main
 
@@ -916,7 +866,6 @@ func sendLoop(ctx context.Context, s Sender) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Vulnerable: loop with Recv interface method (tests analyzeBlockFeatures invoke Recv)
 	{[]string{`
 package main
 
@@ -933,7 +882,6 @@ func recvLoop(ctx context.Context, r Receiver) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Vulnerable: loop with QueryContext method (tests analyzeBlockFeatures invoke QueryContext)
 	{[]string{`
 package main
 
@@ -953,7 +901,6 @@ func queryLoop(ctx context.Context, q Querier) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Vulnerable: loop with ExecContext method (tests analyzeBlockFeatures invoke ExecContext)
 	{[]string{`
 package main
 
@@ -973,7 +920,6 @@ func execLoop(ctx context.Context, e Executor) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Vulnerable: loop with RoundTrip interface method (tests analyzeBlockFeatures invoke RoundTrip)
 	{[]string{`
 package main
 
@@ -990,7 +936,6 @@ func roundTripLoop(ctx context.Context, rt http.RoundTripper) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Vulnerable: loop with http.Head blocking call (tests looksLikeBlockingCall Head)
 	{[]string{`
 package main
 
@@ -1006,7 +951,6 @@ func headLoop(ctx context.Context) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Vulnerable: loop with http.Post (tests looksLikeBlockingCall Post)
 	{[]string{`
 package main
 
@@ -1022,7 +966,6 @@ func postLoop(ctx context.Context) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Vulnerable: loop with http.PostForm (tests looksLikeBlockingCall PostForm)
 	{[]string{`
 package main
 
@@ -1039,7 +982,6 @@ func postFormLoop(ctx context.Context) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Vulnerable: loop with sql.Begin (tests looksLikeBlockingCall Begin)
 	{[]string{`
 package main
 
@@ -1055,7 +997,6 @@ func beginLoop(ctx context.Context, db *sql.DB) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Vulnerable: loop with sql.BeginTx (tests looksLikeBlockingCall BeginTx)
 	{[]string{`
 package main
 
@@ -1071,7 +1012,6 @@ func beginTxLoop(ctx context.Context, db *sql.DB) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Vulnerable: loop with os.Open (tests looksLikeBlockingCall Open)
 	{[]string{`
 package main
 
@@ -1087,7 +1027,6 @@ func openLoop(ctx context.Context) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Vulnerable: loop with os.OpenFile (tests looksLikeBlockingCall OpenFile)
 	{[]string{`
 package main
 
@@ -1103,7 +1042,6 @@ func openFileLoop(ctx context.Context) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Vulnerable: loop with os.WriteFile (tests looksLikeBlockingCall WriteFile)
 	{[]string{`
 package main
 
@@ -1119,7 +1057,6 @@ func writeFileLoop(ctx context.Context) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Safe: function with nil signature (tests functionHasRequestContext nil check)
 	{[]string{`
 package main
 
@@ -1131,7 +1068,6 @@ func withContext(ctx context.Context) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Vulnerable: WithDeadline with time parameter (tests isContextWithFamily WithDeadline)
 	{[]string{`
 package main
 
@@ -1147,7 +1083,6 @@ func deadlineNotCalled(ctx context.Context) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Safe: context from r.Context() collected (tests isHTTPRequestContextCall)
 	{[]string{`
 package main
 
@@ -1164,7 +1099,6 @@ func useRequestContext(w http.ResponseWriter, r *http.Request) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: ctx.Done() in invoke call (tests isContextDoneCall invoke branch)
 	{[]string{`
 package main
 
@@ -1184,7 +1118,6 @@ func withDoneCheck(ctx context.Context) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Vulnerable: goroutine with Background while ctx parameter exists (tests detectUnsafeGoroutines)
 	{[]string{`
 package main
 
@@ -1202,7 +1135,6 @@ func workerWithBackground(ctx context.Context) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Vulnerable: goroutine calling function that uses Background (tests functionCallsBackground)
 	{[]string{`
 package main
 
@@ -1218,7 +1150,6 @@ func launchWorker(ctx context.Context) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Safe: bounded loop (i < 10) with blocking, has external exit (tests hasExternalExit)
 	{[]string{`
 package main
 
@@ -1234,7 +1165,6 @@ func boundedSleep(ctx context.Context) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: loop with break statement has external exit (tests hasExternalExit detection)
 	{[]string{`
 package main
 
@@ -1255,7 +1185,6 @@ func loopWithBreak(ctx context.Context) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: empty function with context parameter (tests early returns in analysis)
 	{[]string{`
 package main
 
@@ -1265,7 +1194,6 @@ func emptyFunc(ctx context.Context) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: function with *http.Request but no goroutines or issues
 	{[]string{`
 package main
 
@@ -1276,7 +1204,6 @@ func simpleHTTPHandler(w http.ResponseWriter, r *http.Request) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Vulnerable: multiple goroutines with Background in same function
 	{[]string{`
 package main
 
@@ -1299,7 +1226,6 @@ func multipleGoroutines(ctx context.Context) {
 }
 `}, 2, gosec.NewConfig()},
 
-	// Vulnerable: goroutine parameter is Background value (tests isBackgroundOrTodoValue)
 	{[]string{`
 package main
 
@@ -1313,7 +1239,6 @@ func spawnWithBg(ctx context.Context) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Safe: single-block self-loop (tests isLoopSCC single block case)
 	{[]string{`
 package main
 
@@ -1326,7 +1251,6 @@ func singleBlockLoop(ctx context.Context) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: cancel through Convert SSA operation (tests isCancelCalled Convert case)
 	{[]string{`
 package main
 
@@ -1341,7 +1265,6 @@ func convertCancel(ctx context.Context) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Vulnerable: loop with Read interface method (tests analyzeBlockFeatures Read case)
 	{[]string{`
 package main
 
@@ -1358,7 +1281,6 @@ func readLoop(ctx context.Context, r io.Reader) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Vulnerable: loop with Write interface method (tests analyzeBlockFeatures Write case)
 	{[]string{`
 package main
 
@@ -1374,7 +1296,6 @@ func writeLoop(ctx context.Context, w io.Writer) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Safe: context parameter but no issues (tests runContextPropagationAnalysis no issues case)
 	{[]string{`
 package main
 
@@ -1385,7 +1306,6 @@ func noIssues(ctx context.Context) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Vulnerable: sql.Query method call (tests looksLikeBlockingCall Query case)
 	{[]string{`
 package main
 
@@ -1404,7 +1324,6 @@ func queryInLoop(ctx context.Context, db *sql.DB) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Vulnerable: sql.Exec method call (tests looksLikeBlockingCall Exec case)
 	{[]string{`
 package main
 
@@ -1420,7 +1339,6 @@ func execInLoop(ctx context.Context, db *sql.DB) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Safe: defer with blocking call is okay (no infinite loop risk)
 	{[]string{`
 package main
 
@@ -1435,7 +1353,6 @@ func worker(ctx context.Context) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: cancel function stored in struct field and called in method
 	{[]string{`
 package main
 
@@ -1467,7 +1384,6 @@ func run(ctx context.Context) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Vulnerable: cancel function stored in struct field but never called
 	{[]string{`
 package main
 
@@ -1493,7 +1409,6 @@ func run(ctx context.Context) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Vulnerable: multiple uncalled cancel functions
 	{[]string{`
 package main
 
@@ -1510,7 +1425,6 @@ func multipleViolations(ctx context.Context) {
 }
 `}, 3, gosec.NewConfig()},
 
-	// Safe: cancel returned as func() and called by caller (issue #1584)
 	{[]string{`
 package main
 
@@ -1553,7 +1467,6 @@ func initDatabase(ctx context.Context) (*sql.DB, func(), error) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: cancel called inside goroutine closure (issue #1590)
 	{[]string{`
 package main
 
@@ -1569,7 +1482,6 @@ func main() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: cancel stored in struct field, struct returned, caller invokes it (issue #1591)
 	{[]string{`
 package main
 
@@ -1593,7 +1505,6 @@ func main() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: cancel stored in struct field post-construction, called via defer in same function (issue #1595)
 	{[]string{`
 package main
 
@@ -1610,7 +1521,6 @@ func manage(ctx context.Context) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: cancel stored in struct field post-construction, called via deferred closure (issue #1595)
 	{[]string{`
 package main
 
@@ -1629,7 +1539,6 @@ func launch(ctx context.Context) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: package-level cancel assigned in init() and called in another function
 	{[]string{`
 package main
 
@@ -1652,7 +1561,6 @@ func main() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: package-level cancel with signal handler pattern
 	{[]string{`
 package main
 
@@ -1686,7 +1594,6 @@ func main() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Vulnerable: package-level cancel never called
 	{[]string{`
 package main
 
@@ -1706,7 +1613,6 @@ func main() {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Safe: package-level cancel called via defer
 	{[]string{`
 package main
 
@@ -1730,7 +1636,6 @@ func main() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: package-level cancel called in goroutine
 	{[]string{`
 package main
 
@@ -1755,7 +1660,6 @@ func main() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Vulnerable: multiple package-level cancels, one not called
 	{[]string{`
 package main
 
@@ -1782,7 +1686,6 @@ func main() {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Safe: package-level cancel called in closure
 	{[]string{`
 package main
 
@@ -1807,7 +1710,6 @@ func main() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: package-level cancel called via method
 	{[]string{`
 package main
 
@@ -1833,7 +1735,6 @@ func main() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: package-level cancel passed as argument (tests CallInstruction with arg)
 	{[]string{`
 package main
 
@@ -1854,7 +1755,6 @@ func execute() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: package-level cancel in nested defer closure (tests MakeClosure)
 	{[]string{`
 package main
 
@@ -1873,8 +1773,6 @@ func setup() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: cancel appended to a cleanup slice that is iterated by a
-	// deferred closure (issue #1668)
 	{[]string{`
 package main
 
@@ -1896,7 +1794,6 @@ func main() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: cancel appended to a slice that is returned to the caller
 	{[]string{`
 package main
 
@@ -1910,7 +1807,6 @@ func cleanups(ctx context.Context) []func() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: cancel stored as a map value (tests MapUpdate handling)
 	{[]string{`
 package main
 
@@ -1924,7 +1820,6 @@ func register(ctx context.Context, key string) map[string]context.CancelFunc {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: cancel placed into a fixed-size array element
 	{[]string{`
 package main
 

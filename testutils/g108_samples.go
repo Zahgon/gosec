@@ -2,7 +2,6 @@ package testutils
 
 import "github.com/securego/gosec/v2"
 
-// SampleCodeG108 - pprof endpoint automatically exposed
 var SampleCodeG108 = []CodeSample{
 	{[]string{`
 package main

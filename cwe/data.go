@@ -1,19 +1,18 @@
 package cwe
 
 const (
-	// Acronym is the acronym of CWE
 	Acronym = "CWE"
-	// Version the CWE version
+
 	Version = "4.4"
-	// ReleaseDateUtc the release Date of CWE Version
+
 	ReleaseDateUtc = "2021-03-15"
-	// Organization MITRE
+
 	Organization = "MITRE"
-	// Description the description of CWE
+
 	Description = "The MITRE Common Weakness Enumeration"
-	// InformationURI link to the published CWE PDF
+
 	InformationURI = "https://cwe.mitre.org/data/published/cwe_v" + Version + ".pdf/"
-	// DownloadURI link to the zipped XML of the CWE list
+
 	DownloadURI = "https://cwe.mitre.org/data/xml/cwec_v" + Version + ".xml.zip"
 )
 
@@ -190,11 +189,4 @@ var idWeaknesses = map[string]*Weakness{
 	},
 }
 
-// Get Retrieves a CWE weakness by it's id
-func Get(id string) *Weakness {
-	weakness, ok := idWeaknesses[id]
-	if ok && weakness != nil {
-		return weakness
-	}
-	return nil
-}
+func Get(id string) *Weakness { _ = "STUB: not implemented"; return nil }

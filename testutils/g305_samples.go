@@ -2,7 +2,6 @@ package testutils
 
 import "github.com/securego/gosec/v2"
 
-// SampleCodeG305 - File path traversal when extracting zip/tar archives
 var SampleCodeG305 = []CodeSample{
 	{[]string{`
 package unzip

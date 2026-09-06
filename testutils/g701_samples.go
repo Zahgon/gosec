@@ -2,7 +2,6 @@ package testutils
 
 import "github.com/securego/gosec/v2"
 
-// SampleCodeG701 - SQL injection via taint analysis
 var SampleCodeG701 = []CodeSample{
 	{[]string{`
 package main
@@ -60,7 +59,6 @@ func preparedStatement(db *sql.DB, r *http.Request) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Field tracking test 1: Struct literal with tainted field (tests isFieldOfAllocTainted)
 	{[]string{`
 package main
 
@@ -79,7 +77,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Field tracking test 2: Function returns struct (tests isFieldTaintedViaCall)
 	{[]string{`
 package main
 
@@ -102,7 +99,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Field tracking test 3: Pointer field access (tests isFieldAccessOnPointerTainted, isFieldTaintedOnValue)
 	{[]string{`
 package main
 
@@ -122,7 +118,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Field tracking test 4: Closure captures tainted variable (tests isFreeVarTainted)
 	{[]string{`
 package main
 
@@ -141,7 +136,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Field tracking test 5: Multi-return field extraction (tests isFieldAccessTainted with Extract)
 	{[]string{`
 package main
 
@@ -164,9 +158,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Field tracking test 6: Nested struct field access
-	// Note: Current implementation doesn't track nested field paths (req.Query.SQL)
-	// This test documents the limitation - should be 1 issue but detects 0
 	{[]string{`
 package main
 
@@ -189,7 +180,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Field tracking test 7: Field taint through control flow merge (tests Phi nodes)
 	{[]string{`
 package main
 
@@ -213,9 +203,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Additional coverage tests for various SSA value types
-
-	// Test 8: BinOp - Multiple string concatenations (tests BinOp taint propagation)
 	{[]string{`
 package main
 
@@ -232,7 +219,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Test 9: Slice operation (tests Slice taint propagation)
 	{[]string{`
 package main
 
@@ -248,7 +234,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Test 10: IndexAddr - Array/slice indexing (tests IndexAddr taint propagation)
 	{[]string{`
 package main
 
@@ -264,7 +249,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Test 11: Convert operation (tests Convert taint propagation)
 	{[]string{`
 package main
 
@@ -281,7 +265,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Test 12: MakeInterface (tests MakeInterface taint propagation)
 	{[]string{`
 package main
 
@@ -298,7 +281,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Test 13: Extract from tuple (multi-value return) with error handling
 	{[]string{`
 package main
 
@@ -317,7 +299,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Test 14: Phi node with loop (tests Phi taint propagation in loops)
 	{[]string{`
 package main
 
@@ -336,7 +317,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Test 15: UnOp dereference (tests UnOp taint propagation)
 	{[]string{`
 package main
 
@@ -353,7 +333,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Test 16: ChangeType (tests ChangeType taint propagation)
 	{[]string{`
 package main
 
@@ -373,7 +352,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Test 17: Field from Alloc with Store (tests Store instruction tracking)
 	{[]string{`
 package main
 
@@ -393,9 +371,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Interprocedural analysis tests (to cover valueReachableFromParams, doTaintedArgsFlowToReturn)
-
-	// Test 18: Simple parameter flow - tainted param flows to return
 	{[]string{`
 package main
 
@@ -415,7 +390,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Test 19: Parameter through variable assignment
 	{[]string{`
 package main
 
@@ -436,7 +410,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Test 20: Parameter through BinOp in helper function
 	{[]string{`
 package main
 
@@ -456,7 +429,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Test 21: Parameter through Phi node (if/else in helper)
 	{[]string{`
 package main
 
@@ -482,7 +454,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Test 22: Parameter through struct field in helper
 	{[]string{`
 package main
 
@@ -506,7 +477,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Test 23: Parameter through slice in helper
 	{[]string{`
 package main
 
@@ -529,7 +499,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Test 24: Parameter through Convert in helper
 	{[]string{`
 package main
 
@@ -550,7 +519,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Test 25: Parameter through Extract (multi-return) in helper
 	{[]string{`
 package main
 
@@ -570,7 +538,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Test 26: Parameter through nested calls
 	{[]string{`
 package main
 
@@ -594,7 +561,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Test 27: Parameter through UnOp in helper
 	{[]string{`
 package main
 
@@ -614,7 +580,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Test 28: Parameter through MakeInterface in helper
 	{[]string{`
 package main
 
@@ -636,7 +601,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Test 29: Parameter through FieldAddr stores in helper
 	{[]string{`
 package main
 
@@ -662,7 +626,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Test 30: Parameter through Call Args in helper (nested call)
 	{[]string{`
 package main
 
@@ -683,9 +646,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Additional interprocedural tests for edge cases
-
-	// Test 31: Parameter through TypeAssert in helper
 	{[]string{`
 package main
 
@@ -708,9 +668,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Test 32: Parameter through map Lookup in helper
-	// Note: Current implementation doesn't track taint through map values
-	// Map literal with tainted value → map lookup doesn't propagate taint
 	{[]string{`
 package main
 
@@ -731,7 +688,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Test 33: Parameter through complex Alloc with multiple stores
 	{[]string{`
 package main
 
@@ -759,7 +715,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Test 34: Parameter through chained Slice operations
 	{[]string{`
 package main
 
@@ -784,7 +739,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Test 35: Parameter through IndexAddr with array
 	{[]string{`
 package main
 
@@ -804,7 +758,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Test 36: Parameter through nested Phi with loop
 	{[]string{`
 package main
 
@@ -832,7 +785,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Test 37: Parameter through multiple UnOp dereferences
 	{[]string{`
 package main
 
@@ -854,7 +806,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Test 38: Parameter through ChangeType in helper
 	{[]string{`
 package main
 
@@ -878,9 +829,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Additional tests specifically for valueReachableFromParams edge cases
-
-	// Test 39: Multiple parameters with BinOp combination
 	{[]string{`
 package main
 
@@ -902,8 +850,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Test 40: Parameter through nested FieldAddr in struct
-	// Note: Nested field paths (outer.Inner.Value) not fully tracked
 	{[]string{`
 package main
 
@@ -933,7 +879,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Test 41: Parameter through Slice with multiple elements
 	{[]string{`
 package main
 
@@ -957,7 +902,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Test 42: Parameter through Extract with multiple returns
 	{[]string{`
 package main
 
@@ -977,7 +921,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Test 43: Parameter through nested Phi with multiple branches
 	{[]string{`
 package main
 
@@ -1006,7 +949,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Test 44: Parameter through Call with multiple arguments
 	{[]string{`
 package main
 
@@ -1027,7 +969,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Test 45: Parameter through nested Call chains
 	{[]string{`
 package main
 
@@ -1056,7 +997,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Test 46: Parameter through IndexAddr with dynamic index
 	{[]string{`
 package main
 
@@ -1079,7 +1019,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Test 47: Parameter through MakeInterface with type conversion
 	{[]string{`
 package main
 
@@ -1102,7 +1041,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Test 48: Parameter through complex Alloc pattern with reassignment
 	{[]string{`
 package main
 
@@ -1128,9 +1066,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Minimal tests for maximum branch coverage
-
-	// Test 49: URL sanitizer doesn't prevent SQL injection
 	{[]string{`
 package main
 
@@ -1147,7 +1082,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Test 50: Empty/nil handling
 	{[]string{`
 package main
 
@@ -1165,7 +1099,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Test 51: Global variable taint source
 	{[]string{`
 package main
 
@@ -1180,7 +1113,6 @@ func handler(db *sql.DB) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Test 52: Taint through interface method
 	{[]string{`
 package main
 
@@ -1203,7 +1135,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Test 53: Const value (safe)
 	{[]string{`
 package main
 
@@ -1215,7 +1146,6 @@ func handler(db *sql.DB) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Test 54: Taint through builtin append
 	{[]string{`
 package main
 
@@ -1231,7 +1161,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Test 55: FreeVar returns false (closure limitation)
 	{[]string{`
 package main
 
@@ -1253,8 +1182,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Lookup operation (map access)
-	// NOTE: Map value taint tracking not yet supported - documented limitation
 	{[]string{`
 package main
 
@@ -1272,7 +1199,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Type assertion with tainted data
 	{[]string{`
 package main
 
@@ -1289,7 +1215,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Slice operation on tainted input
 	{[]string{`
 package main
 
@@ -1306,7 +1231,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Unary operation (pointer dereference) on tainted data
 	{[]string{`
 package main
 
@@ -1323,7 +1247,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// ChangeType operation with unsafe pointer conversion
 	{[]string{`
 package main
 
@@ -1343,7 +1266,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Multi-return with conditional (Phi node)
 	{[]string{`
 package main
 
@@ -1368,7 +1290,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Array element access with tainted data
 	{[]string{`
 package main
 
@@ -1385,7 +1306,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Interface conversion with tainted data
 	{[]string{`
 package main
 
@@ -1403,7 +1323,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Nested type conversions with tainted data
 	{[]string{`
 package main
 
@@ -1423,7 +1342,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Conditional assignment with potential nil (Phi node)
 	{[]string{`
 package main
 
@@ -1444,8 +1362,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Global variable with tainted data
-	// NOTE: Global variable taint tracking not yet supported - documented limitation
 	{[]string{`
 package main
 
@@ -1466,7 +1382,6 @@ func executeQuery(db *sql.DB) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Complex Phi node - multiple branches converging
 	{[]string{`
 package main
 
@@ -1492,7 +1407,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Advanced interprocedural - deep call chain
 	{[]string{`
 package main
 
@@ -1524,7 +1438,6 @@ func executeQuery(db *sql.DB, query string) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Interprocedural with struct field assignment
 	{[]string{`
 package main
 
@@ -1551,10 +1464,8 @@ func executeQueryBuilder(db *sql.DB, qb *QueryBuilder) {
 	query := "SELECT * FROM users WHERE " + qb.Filter
 	db.Query(query)
 }
-`}, 0, gosec.NewConfig()}, // NOTE: Some advanced patterns have limitations
+`}, 0, gosec.NewConfig()},
 
-	// Global struct with tainted field
-	// NOTE: Global variable taint tracking not yet supported - documented limitation
 	{[]string{`
 package main
 
@@ -1580,7 +1491,6 @@ func search(db *sql.DB) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Complex Phi with nested conditionals
 	{[]string{`
 package main
 
@@ -1609,7 +1519,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Interprocedural with multiple parameters
 	{[]string{`
 package main
 
@@ -1634,7 +1543,6 @@ func combineFields(table, field1, field2 string) string {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Interprocedural with return value from tainted parameter
 	{[]string{`
 package main
 
@@ -1657,7 +1565,6 @@ func attemptSanitize(input string) string {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Complex Phi with loop and conditional
 	{[]string{`
 package main
 
@@ -1681,7 +1588,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Interprocedural with closure capturing tainted variable
 	{[]string{`
 package main
 
@@ -1702,8 +1608,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Multiple globals with taint propagation
-	// NOTE: Global variable taint tracking not yet supported - documented limitation
 	{[]string{`
 package main
 
@@ -1729,7 +1633,6 @@ func executeGlobalQuery(db *sql.DB) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Interprocedural with variadic function
 	{[]string{`
 package main
 
@@ -1751,7 +1654,6 @@ func buildQuery(table string, ids ...string) string {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Complex Phi with ternary-like pattern
 	{[]string{`
 package main
 
@@ -1775,7 +1677,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Interprocedural with method receiver
 	{[]string{`
 package main
 
@@ -1800,8 +1701,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Global function pointer with tainted call
-	// NOTE: Function pointer taint tracking not yet supported - documented limitation
 	{[]string{`
 package main
 
@@ -1825,7 +1724,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Interprocedural with slice append operations
 	{[]string{`
 package main
 
@@ -1848,7 +1746,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Complex Phi with goto statement
 	{[]string{`
 package main
 
@@ -1873,8 +1770,6 @@ execute:
 }
 `}, 1, gosec.NewConfig()},
 
-	// Interprocedural with interface implementation
-	// NOTE: Interface method taint tracking not yet fully supported - documented limitation
 	{[]string{`
 package main
 
@@ -1902,7 +1797,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Multiple Phi nodes with complex control flow
 	{[]string{`
 package main
 
@@ -1939,7 +1833,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Simple function return of tainted value
 	{[]string{`
 package main
 
@@ -1959,7 +1852,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Taint through slice operations
 	{[]string{`
 package main
 
@@ -1975,7 +1867,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Multiple function call chain
 	{[]string{`
 package main
 
@@ -1999,11 +1890,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Multi-level constructor chain with shared tainted config (issue #1587)
-	// Tests that interprocedural taint analysis terminates when constructors
-	// fan out tainted config through multiple struct levels.
-	// The analysis terminates correctly but does not yet follow double field
-	// indirection (app.cfg.DSN), so no issue is expected.
 	{[]string{`
 package main
 
@@ -2056,9 +1942,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Fan-out constructor with multiple children storing tainted data (issue #1587)
-	// Tests termination when one constructor creates multiple child structs that
-	// each store the same tainted parameter.
 	{[]string{`
 package main
 
@@ -2112,9 +1995,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Deep nested struct field access through constructor chain (issue #1587)
-	// Tests that taint tracks correctly through deeply nested field access
-	// without exponential blowup from revisiting the same call sites.
 	{[]string{`
 package main
 
@@ -2154,9 +2034,6 @@ func handler(db *sql.DB, r *http.Request) {
 }
 `}, 1, gosec.NewConfig()},
 
-	// No taint: safe value through multi-level constructors (issue #1587)
-	// Ensures no false positive when a constant flows through the same
-	// multi-level constructor chain.
 	{[]string{`
 package main
 

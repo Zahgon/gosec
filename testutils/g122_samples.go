@@ -2,9 +2,8 @@ package testutils
 
 import "github.com/securego/gosec/v2"
 
-// SampleCodeG122 - Filesystem TOCTOU race risk in filepath.Walk/WalkDir callbacks
 var SampleCodeG122 = []CodeSample{
-	// Vulnerable: direct callback path is used in a destructive sink
+
 	{[]string{`
 package main
 
@@ -23,7 +22,6 @@ func main() {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Vulnerable: derived callback path is used in open/create sink
 	{[]string{`
 package main
 
@@ -44,7 +42,6 @@ func main() {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Safe: callback path is not used in any filesystem sink
 	{[]string{`
 package main
 
@@ -63,7 +60,6 @@ func main() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: sink uses constant path, not callback path
 	{[]string{`
 package main
 
@@ -82,7 +78,6 @@ func main() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: callback path used with root-scoped API (os.Root)
 	{[]string{`
 package main
 
@@ -108,7 +103,6 @@ func main() {
 }
 `}, 0, gosec.NewConfig()},
 
-	// Safe: callback path used with root-scoped mutating API (os.Root.Remove)
 	{[]string{`
 package main
 

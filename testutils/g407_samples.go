@@ -2,7 +2,6 @@ package testutils
 
 import "github.com/securego/gosec/v2"
 
-// SampleCodeG407 - Use of hardcoded nonce/IV
 var SampleCodeG407 = []CodeSample{
 	{[]string{`package main
 
@@ -1045,7 +1044,7 @@ func main() {
     _ = cipher.NewCTR(block, iv)
 }
 `}, 1, gosec.NewConfig()},
-	// Slice with Variable Bound (Unresolvable Range)
+
 	{[]string{`package main
 import (
     "crypto/aes"
@@ -1062,7 +1061,7 @@ func main() {
     _ = cipher.NewCTR(block, iv)
 }
 `}, 1, gosec.NewConfig()},
-	// IndexAddr with Variable Index (Unresolvable Range)
+
 	{[]string{`package main
 import (
     "crypto/aes"
@@ -1258,7 +1257,6 @@ func main() {
 }
 `}, 1, gosec.NewConfig()},
 
-	// Decryption tests - should NOT be flagged as decryption uses the same nonce as encryption
 	{[]string{`package main
 
 import (

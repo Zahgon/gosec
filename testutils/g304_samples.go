@@ -2,7 +2,6 @@ package testutils
 
 import "github.com/securego/gosec/v2"
 
-// SampleCodeG304 - potential file inclusion vulnerability
 var SampleCodeG304 = []CodeSample{
 	{[]string{`
 package main
